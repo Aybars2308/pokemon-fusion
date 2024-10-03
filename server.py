@@ -1,8 +1,8 @@
-from PIL import Image, ImageTk
-import tkinter as tk
-from tkinter import Label, Button
+from PIL import Image
+from flask import Flask, send_file,request
 import random
 import os
+app = Flask(__name__)
 
 def load_sprites(folder):
     sprites = {}
@@ -56,39 +56,14 @@ def save_fused_pokemon(pokemon1, pokemon2, save_path):
         fused_image.save(save_path)
     return fused_image
 
-def show_fused_pokemon():
-    
-    p1, p2 = random.sample(pokemon_list, 2)
-    fused_image = save_fused_pokemon(p1, p2, 'fused_pokemon.png')
+@app.route('/fuse')
+def fuse_pokemon_route():
+    pokemon1 = request.args.get('p1')
+    pokemon2 = request.args.get('p2')
+    save_path = "fused_image.png"
+    fused_image = fuse_pokemon(pokemon1, pokemon2)
+    fused_image.save(save_path)
+    return send_file(save_path, mimetype='image/png')
 
-    
-    new_name = create_fusion_name(p1, p2)
-
-    
-    fused_image_tk = ImageTk.PhotoImage(fused_image)
-    label.config(image=fused_image_tk)
-    label.image = fused_image_tk  
-
-    label_text.config(text=f"Fused: {new_name}")  
-    original_text.config(text=f"{p1} + {p2}")  
-
-window = tk.Tk()
-window.title("Pokémon Fusion")
-window.geometry("200x300")
-
-label = Label(window)
-label.pack()
-
-original_text = Label(window, text="", font=("Arial", 10))
-original_text.pack()
-
-label_text = Label(window, text="Click to fuse Pokémon!", font=("Arial", 12))
-label_text.pack()
-
-button = Button(window, text="Fuse Pokémon", command=show_fused_pokemon)
-button.pack()
-
-pokemon_list = list(sprites.keys())
-
-window.mainloop()
-
+if __name__ == '__main__':
+    app.run
