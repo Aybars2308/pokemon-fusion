@@ -9,10 +9,17 @@
     <h1>Pokemon Fusion</h1>
     <p>Select two Pokemon to fuse:</p>
     <form id="fusionForm">
-        <select id="pokemon1">
+      <select id="pokemon1">
+        <option value="bulbasaur">Bulbasaur</option>
+        <option value="Psyduck">Psyduck</option>
+        <option value="squirtle">Squirtle</option>
 
         </select>
         <select id="pokemon2">
+          <option value="mewtwo">Mewtwo</option>
+          <option value="slaking">Slaking</option>
+          <option value="arcanine">Arcanine</option>
+
 
         </select>
         <button type="button" onclick="fusePokemon()">Fuse</button>
@@ -26,7 +33,7 @@
             var pokemon1 = document.getElementById('pokemon1').value;
             var pokemon2 = document.getElementById('pokemon2').value;
             // Fetch fused Pokemon image from server
-            fetch(/fuse?p1=${pokemon1}&p2=${pokemon2})
+            fetch('/fuse?p1=${pokemon1}&p2=${pokemon2}')
                 .then(response => response.blob())
                 .then(blob => {
                     var url = URL.createObjectURL(blob);
@@ -35,6 +42,7 @@
                     img.onload = () => {
                         var canvas = document.getElementById('fusedCanvas');
                         var ctx = canvas.getContext('2d');
+                        ctx.clearRect(0,0,canvas.width,canvas.height);
                         ctx.drawImage(img, 0, 0);
                     };
                 });
