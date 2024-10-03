@@ -21,9 +21,9 @@ def blend_pixels_randomly(pixel1, pixel2, blend_ratio=0.5):
     )
     return blended_pixel
 
-def fuse_pokemon(pokemon1, pokemon2):
-    sprite1 = sprites[pokemon1].resize((96, 96)).convert("RGBA")
-    sprite2 = sprites[pokemon2].resize((96, 96)).convert("RGBA")
+def fuse_pokemon(bulbasaur, mewtwo):
+    sprite1 = sprites[bulbasaur].resize((96, 96)).convert("RGBA")
+    sprite2 = sprites[mewtwo].resize((96, 96)).convert("RGBA")
 
     fused_image = Image.new('RGBA', (96, 96))
 
